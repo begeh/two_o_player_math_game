@@ -52,16 +52,20 @@ class Game
         @player2.lives += @change_in_score
         @current_player = "P1"
       end
-      puts "P1: #{@player1.lives}/3 vs P2: #{@player2.lives}/3"
-      if @player1.lives == 0 or @player2.lives == 0
-        if @player1.lives > @player2.lives
-          puts "Player 1 wins with a score of #{player1.lives}/3"
-        else
-          puts "Player 2 wins with a score of #{player2.lives}/3" 
-        end
+      if (@player1.lives == 0 or @player2.lives == 0) and @current_player == "P1"
         @check_gameover = true
+      end
+      if @check_gameover == true
+        if @player1.lives > @player2.lives
+          puts "Player 1 wins with a score of #{@player1.lives}/3"
+        elsif @player1.lives < @player2.lives
+          puts "Player 2 wins with a score of #{@player2.lives}/3"
+        else
+          puts "It's a draw." 
+        end
         puts "----- GAME OVER -----"
       else
+        puts "P1: #{@player1.lives}/3 vs P2: #{@player2.lives}/3"
         puts "----- NEW TURN -----"
       end
     end
