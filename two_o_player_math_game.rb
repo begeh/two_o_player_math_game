@@ -8,44 +8,36 @@
 require "./question_class.rb"
 require "./player_class.rb"
 
-class Game
-  def initialize(current_player)
-    @current_player = current_player    
-    @player1 = Player.new("P1")
-    @player2 = Player.new("P2")
-    @check_gameover = false
+current_player = "P1"    
+player1 = Player.new("P1")
+player2 = Player.new("P2")
+check_gameover = false
+
+while(check_gameover == false)
+  question = Question.new(current_player)
+  change_in_score = question.check_answer
+  if current_player == player1.name
+    player1.lives += change_in_score
+    current_player = "P2"
+  else
+    player2.lives += change_in_score
+    current_player = "P1"
   end
-  def run_game
-    while(@check_gameover == false)
-      question = Question.new(@current_player)
-      @change_in_score = question.check_answer
-      if @current_player == @player1.name
-        @player1.lives += @change_in_score
-        @current_player = "P2"
-      else
-        @player2.lives += @change_in_score
-        @current_player = "P1"
-      end
-      if (@player1.lives == 0 or @player2.lives == 0) and @current_player == "P1"
-        @check_gameover = true
-      end
-      if @check_gameover == true
-        puts "-----------------------" 
-        if @player1.lives > @player2.lives
-          puts "Player 1 wins with a score of #{@player1.lives}/3"
-        elsif @player1.lives < @player2.lives
-          puts "Player 2 wins with a score of #{@player2.lives}/3"
-        else
-          puts "It's a draw." 
-        end
-        puts "----- GAME OVER -----"
-      else
-        puts "P1: #{@player1.lives}/3 vs P2: #{@player2.lives}/3"
-        puts "----- NEW TURN -----"
-      end
+  if (player1.lives == 0 or player2.lives == 0) and current_player == "P1"
+    check_gameover = true
+  end
+  if check_gameover == true
+    puts "---------------------" 
+    if player1.lives > player2.lives
+      puts "Player 1 wins with a score of #{player1.lives}/3"
+    elsif player1.lives < player2.lives
+      puts "Player 2 wins with a score of #{player2.lives}/3"
+    else
+      puts "It's a draw." 
     end
+    puts "----- GAME OVER -----"
+  else
+    puts "P1: #{player1.lives}/3 vs P2: #{player2.lives}/3"
+    puts "----- NEW TURN -----"
   end
 end
-
-game = Game.new("P1")
-game.run_game
